@@ -129,6 +129,54 @@ function generateFactorial(num) {
 
 // 8. Find a way out of the maze
 
+function mazeEscape (maze, i=0, j=0) {
+    // base case - at the exit
+    if (maze[i][j] === 'e') {
+      return '';
+    }
+  
+    // general 
+  
+    let letter;
+    if (maze[i][j+1] === ' ' || maze[i][j+1] === 'e') {
+      j++;
+      letter = 'R';
+    }
+    else if (maze[i+1][j] === ' ' || maze[i+1][j] === 'e') {
+      i++;
+      letter = 'D';
+    }
+    else {
+      // go left until you hit an a blocked passage
+      for (let counter = j; counter > 0; counter--) {
+        if (letter) {
+          letter = letter + 'L';
+        } else {
+          letter = 'L';
+        }
+        j--;
+      }
+      i++;
+      return letter + 'D' + mazeSolver(maze, i, j);
+    }
+    return letter + mazeEscape(maze, i, j)
+  }
+  
+  let mySmallMaze = [
+    [' ', ' ', ' '],
+    [' ', '*', ' '],
+    [' ', ' ', 'e']
+  ];
+  
+  let maze = [
+    [' ', ' ', ' ', '*', ' ', ' ', ' '],
+    ['*', '*', ' ', '*', ' ', '*', ' '],
+    [' ', ' ', ' ', '*', ' ', ' ', ' '],
+    [' ', '*', ' ', '*', '*', '*', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', 'e']
+  ];
 
+  console.log(mazeEscape(mySmallMaze))
+  console.log(mazeEscape(maze));
 
   
